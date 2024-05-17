@@ -1,17 +1,25 @@
 import express from 'express'
 import { config } from 'dotenv'
+
 import DbConnect from './config/Database'
 import StudentRoutes from './modules/student/routes/StudentRoute'
+import ErrorHandler from './middlewares/ErrorMiddleware'
 
 config()
 
 const app = express()
 
-//Middlewares
+// Middlewares
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Routing Middlewares
 app.use('/', StudentRoutes)
 
-//Server and Database Connection
+// ErrorHandling Middleware
+app.use(ErrorHandler);
+
+// Database Connection
 const Server = () =>{
     try{
         DbConnect(process.env.MONGO_URI!).then(() => {
