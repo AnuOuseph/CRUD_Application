@@ -1,4 +1,5 @@
 import express from 'express'
+import cors from 'cors'
 import { config } from 'dotenv'
 
 import DbConnect from './config/Database'
@@ -10,6 +11,11 @@ config()
 const app = express()
 
 // Middlewares
+app.use(cors({
+    origin: 'http://localhost:5173',
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+})); 
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

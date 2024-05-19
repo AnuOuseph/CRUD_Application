@@ -1,8 +1,20 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DataTable from "../modules/student/components/DataTable"
 import CreateModal from "../modules/student/components/CreateModal";
+import { getStudents } from "../modules/student/Services/StudentService";
+import { IStudent } from "../modules/student/types/StudentTypes";
 
 const StudentPage: React.FC = () => {
+  const [students, setStudents] = useState<IStudent[]>([]);
+
+  const fetchStudents = async () => {
+    const studentsData = await getStudents();
+    setStudents(studentsData);
+  };
+
+  useEffect(() => {
+    fetchStudents();
+  }, []);
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const openModal = () => {
@@ -19,11 +31,11 @@ const StudentPage: React.FC = () => {
         <div className="flex justify-center items-center">
             <input className="md:px-4 px-2 py-1 rounded-md" type="text" placeholder="Search..."/>
             <button className="text-white px-2 md:px-4 py-2 uppercase mx-2 rounded-md font-medium" style={{backgroundColor:'#22c55e'}} onClick={openModal}> <span className="md:hidden block text-sm">Add </span> <span className="hidden md:block text-sm"> Add New Student</span></button>
-            <CreateModal isOpen={modalIsOpen} onRequestClose={closeModal} contentLabel="Add New Student" />
+            <CreateModal isOpen={modalIsOpen} onRequestClose={closeModal} refreshStudents={fetchStudents} contentLabel="Add New Student" />
         </div>
       </div>
       <div className="py-5">
-        <DataTable/>
+        <DataTable students={students} fetchStudents={fetchStudents}/>
       </div>
     </div>
   )
