@@ -8,13 +8,18 @@ const StudentPage: React.FC = () => {
   const [students, setStudents] = useState<IStudent[]>([]);
 
   const fetchStudents = async () => {
-    const studentsData = await getStudents();
-    setStudents(studentsData);
+    try {
+      const studentsData = await getStudents();
+      setStudents(studentsData);
+    } catch (error) {
+      console.error("Error fetching students:", error);
+    }
   };
 
   useEffect(() => {
     fetchStudents();
   }, []);
+
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const openModal = () => {

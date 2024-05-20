@@ -14,3 +14,13 @@ export const addStudent = async (student: IStudent): Promise<IStudent> => {
   const response = await axios.post<IStudent>('http://localhost:5000', student);
   return response.data;
 };
+
+export const updateStudent = async (student: IStudent): Promise<IStudent> => {
+  const response = await axios.put<IStudent>(`http://localhost:5000/${student._id}`, student);
+  return response.data;
+};
+
+export const deleteStudent = async (studentId: string): Promise<void> => {
+  const response = await axios.delete(`http://localhost:5000/${studentId}`);
+  return response.data;
+};

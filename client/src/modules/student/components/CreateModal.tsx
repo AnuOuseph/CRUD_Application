@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import toast from "react-hot-toast";
 import { IStudent } from '../types/StudentTypes';
@@ -21,6 +21,14 @@ const CreateModal: React.FC<MyModalProps> = ({ isOpen, onRequestClose, contentLa
     enrollNo: 0,
     date: new Date()
   });
+  // State to manage the value of the date input field
+  const [dateInputValue, setDateInputValue] = useState<string>('');
+
+  useEffect(() => {
+    // Set the initial value of the date input field when the modal opens
+    setDateInputValue(student.date.toISOString().substr(0, 10));
+  }, [student.date]);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setStudent((prevStudent) => ({
@@ -30,6 +38,8 @@ const CreateModal: React.FC<MyModalProps> = ({ isOpen, onRequestClose, contentLa
   };
 
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // Update the date input value state
+    setDateInputValue(e.target.value);
     setStudent((prevStudent) => ({
       ...prevStudent,
       date: new Date(e.target.value),
@@ -41,7 +51,7 @@ const CreateModal: React.FC<MyModalProps> = ({ isOpen, onRequestClose, contentLa
     try {
       const response = await addStudent(student)
       console.log('Student added:', response);
-      toast.success("Success")
+      toast.success("New Student Created")
       setStudent({
         name: '',
         email: '',
@@ -86,7 +96,7 @@ const CreateModal: React.FC<MyModalProps> = ({ isOpen, onRequestClose, contentLa
             <input type="email" name="email" value={student.email} onChange={handleChange} className='border rounded px-4 py-2 my-1 text-sm w-[100%]' placeholder='Email' />
             <input type="text" name="phone" value={student.phone} onChange={handleChange} className='border rounded px-4 py-2 my-1 text-sm w-[100%]' placeholder='Phone' />
             <input type="number" name="enrollNo" value={student.enrollNo} onChange={handleChange} className='border rounded px-4 py-2 my-1 text-sm w-[100%]' placeholder='Enroll No' />
-            <input type="date" name="date" value={student.date.toISOString().substr(0, 10)} onChange={handleDateChange} className='border rounded px-4 py-2 my-1 text-sm w-[100%]' placeholder='Date' />
+            <input type="date" name="date" value={dateInputValue}  onChange={handleDateChange} className='border rounded px-4 py-2 my-1 text-sm w-[100%]' placeholder='Date' />
         </div>
         <div className='w-[100%] flex flex-col items-center'>
             <button className='w-[80%] text-white my-1 py-1 rounded' style={{backgroundColor:'#22c55e'}} onClick={handleSubmit}>Submit</button>
