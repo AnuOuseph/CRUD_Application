@@ -2,6 +2,6 @@ export interface IStudent {
     name: string;
     email: string;
     phone: string;
-    enrollNo: number;
+    enrollNo: string;
     date: Date;
 }

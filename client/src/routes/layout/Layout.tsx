@@ -1,9 +1,10 @@
+import { useState } from 'react';
 import { Outlet } from 'react-router-dom' 
 import NavBar from "../../components/navbar/NavBar"
 import SideBar from "../../components/sidebar/SideBar"
-import { useState } from 'react';
 
 const Layout: React.FC = () => {
+  //Handle sidebar functions on smaller screens
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const toggleSidebar = () => {
@@ -13,15 +14,18 @@ const Layout: React.FC = () => {
   const closeSidebar = () => {
     setIsSidebarOpen(false);
   };
+  
   return (
-    <div style={{backgroundColor:'#e5e7eb'}}>
+    <div>
       <div style={{display:'flex'}}>
         <div>
           <SideBar isOpen={isSidebarOpen} onClose={closeSidebar}/>
         </div>
-        <div style={{flex:10, backgroundColor:'#e5e7eb'}}>
-          <NavBar onMenuClick={toggleSidebar}/>
-          <div className="flex-1 p-4" style={{ height: 'calc(100vh - 64px)' }}>
+        <div style={{flex:10}}>
+          <div style={{height: '16px'}}>
+            <NavBar onMenuClick={toggleSidebar}/>
+          </div>
+          <div className="flex-1 p-4">
             <Outlet />
           </div>
         </div>

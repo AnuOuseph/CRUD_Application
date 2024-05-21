@@ -18,51 +18,63 @@ const CreateModal: React.FC<MyModalProps> = ({ isOpen, onRequestClose, contentLa
     name: '',
     email: '',
     phone: '',
-    enrollNo: 0,
-    date: new Date()
+    enrollNo: '',
+    date: null
   });
+
   // State to manage the value of the date input field
   const [dateInputValue, setDateInputValue] = useState<string>('');
 
+  // Clear the date input field when the modal opens
   useEffect(() => {
-    // Set the initial value of the date input field when the modal opens
-    setDateInputValue(student.date.toISOString().substr(0, 10));
-  }, [student.date]);
+    if (isOpen) {
+      setStudent({
+        name: '',
+        email: '',
+        phone: '',
+        enrollNo: '',
+        date: null,
+      });
+      setDateInputValue('');
+    }
+  }, [isOpen]);
 
+  //Handle input changes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setStudent((prevStudent) => ({
       ...prevStudent,
-      [name]: name === 'enrollNo' ? Number(value) : value,
+      [name]: value,
     }));
   };
 
+  // Update the date input value state
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // Update the date input value state
     setDateInputValue(e.target.value);
     setStudent((prevStudent) => ({
       ...prevStudent,
       date: new Date(e.target.value),
     }));
   };
-  console.log(student)
+
+  //Handle Create Student
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       const response = await addStudent(student)
       console.log('Student added:', response);
-      toast.success("New Student Created")
       setStudent({
         name: '',
         email: '',
         phone: '',
-        enrollNo: 0,
-        date: new Date(),
+        enrollNo: '',
+        date: null,
       });
       refreshStudents(); 
       onRequestClose();
+      toast.success("New Student Created")
     } catch (error) {
-      toast.error("error creating")
+      toast.error("All Fields are Required!")
     }
   };
   return (
@@ -92,15 +104,15 @@ const CreateModal: React.FC<MyModalProps> = ({ isOpen, onRequestClose, contentLa
       <div className="p-5 bg-white rounded-xl">
         <h2 className='font-semibold text-xl mb-3'>{contentLabel}</h2>
         <div className='flex flex-col items-center justify-center my-4'>
-            <input type="text" name="name" value={student.name} onChange={handleChange} className='border rounded px-4 py-2 my-1 text-sm w-[100%]' placeholder='Name'/>
-            <input type="email" name="email" value={student.email} onChange={handleChange} className='border rounded px-4 py-2 my-1 text-sm w-[100%]' placeholder='Email' />
-            <input type="text" name="phone" value={student.phone} onChange={handleChange} className='border rounded px-4 py-2 my-1 text-sm w-[100%]' placeholder='Phone' />
-            <input type="number" name="enrollNo" value={student.enrollNo} onChange={handleChange} className='border rounded px-4 py-2 my-1 text-sm w-[100%]' placeholder='Enroll No' />
-            <input type="date" name="date" value={dateInputValue}  onChange={handleDateChange} className='border rounded px-4 py-2 my-1 text-sm w-[100%]' placeholder='Date' />
+          <input type="text" name="name" value={student.name} onChange={handleChange} className='border rounded px-4 py-2 my-1 text-sm w-[100%]' placeholder='Name'/>
+          <input type="email" name="email" value={student.email} onChange={handleChange} className='border rounded px-4 py-2 my-1 text-sm w-[100%]' placeholder='Email' />
+          <input type="text" name="phone" value={student.phone} onChange={handleChange} className='border rounded px-4 py-2 my-1 text-sm w-[100%]' placeholder='Phone' />
+          <input type="text" name="enrollNo" value={student.enrollNo} onChange={handleChange} className='border rounded px-4 py-2 my-1 text-sm w-[100%]' placeholder='Enroll No' />
+          <input type="date" name="date" value={dateInputValue}  onChange={handleDateChange} className='border rounded px-4 py-2 my-1 text-sm w-[100%]' placeholder='Date' />
         </div>
         <div className='w-[100%] flex flex-col items-center'>
-            <button className='w-[80%] text-white my-1 py-1 rounded' style={{backgroundColor:'#22c55e'}} onClick={handleSubmit}>Submit</button>
-            <button className='w-[80%] text-white my-1 py-1 rounded' style={{backgroundColor:'#c55d22'}} onClick={onRequestClose}>Close</button>
+          <button className='w-[80%] text-white my-1 py-1 rounded' style={{backgroundColor:'#22c55e'}} onClick={handleSubmit}>Submit</button>
+          <button className='w-[80%] text-white my-1 py-1 rounded' style={{backgroundColor:'#c55d22'}} onClick={onRequestClose}>Close</button>
         </div>
       </div>
     </Modal>

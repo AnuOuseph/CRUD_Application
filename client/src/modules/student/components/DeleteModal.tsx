@@ -1,11 +1,12 @@
 import React from 'react';
 import Modal from 'react-modal';
 import toast from "react-hot-toast";
+
 import { deleteStudent } from '../Services/StudentService';
 import { IStudent } from '../types/StudentTypes';
 
+Modal.setAppElement('#root');
 
-Modal.setAppElement('#root'); 
 interface MyModalProps {
   isOpen: boolean;
   onRequestClose: () => void;
@@ -15,6 +16,7 @@ interface MyModalProps {
 }
 
 const DeleteModal: React.FC<MyModalProps> = ({ isOpen, onRequestClose, contentLabel, student, fetchStudents }) => {
+  //Handle Delete Function
   const handleDelete = async () => {
     if (student && student._id) {
       try {
@@ -23,7 +25,7 @@ const DeleteModal: React.FC<MyModalProps> = ({ isOpen, onRequestClose, contentLa
         onRequestClose();
         toast.success("Deleted Successfully")
       } catch (error) {
-        toast.error("error creating")
+        toast.error("Error Deleting Student!")
       }
     }
   };
@@ -54,8 +56,8 @@ const DeleteModal: React.FC<MyModalProps> = ({ isOpen, onRequestClose, contentLa
       <div className="p-5 bg-white rounded-xl">
         <h2 className='font-semibold text-lg mb-3'>{contentLabel}</h2>
         <div className='w-[100%] flex items-center'>
-            <button className='w-[50%] text-white my-1 mx-2 py-1 rounded' style={{backgroundColor:'#22c55e'}} onClick={handleDelete}>Delete</button>
-            <button className='w-[50%] text-white my-1 mx-2 py-1 rounded' style={{backgroundColor:'#c55d22'}} onClick={onRequestClose}>Close</button>
+          <button className='w-[50%] text-white my-1 mx-2 py-1 rounded' style={{backgroundColor:'#22c55e'}} onClick={handleDelete}>Delete</button>
+          <button className='w-[50%] text-white my-1 mx-2 py-1 rounded' style={{backgroundColor:'#c55d22'}} onClick={onRequestClose}>Close</button>
         </div>
       </div>
     </Modal>
