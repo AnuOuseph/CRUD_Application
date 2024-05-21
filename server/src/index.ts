@@ -25,17 +25,22 @@ app.use('/', StudentRoutes)
 // ErrorHandling Middleware
 app.use(ErrorHandler);
 
-// Database Connection
-const Server = () =>{
-    try{
-        DbConnect(process.env.MONGO_URI!).then(() => {
-            app.listen(process.env.PORT, ()=>{
-                console.log("server connected")
-            })
-        })
-    }catch(error){
-        console.log(error)
-    }
+// Export the app for testing
+export default app;
+
+// Separate logic for starting server
+if (require.main === module) {
+    const Server = async () => {
+        try {
+            await DbConnect(process.env.MONGO_URI!);
+            const port = process.env.PORT || 3000;
+            app.listen(port, () => {
+                console.log(`Server connected on port ${port}`);
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    };
+    Server();
 }
-Server()
 
