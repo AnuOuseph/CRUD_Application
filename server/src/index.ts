@@ -12,7 +12,7 @@ const app = express()
 
 // Middlewares
 app.use(cors({
-    origin: 'http://localhost:5173',
+    origin: 'https://crud-application-henna.vercel.app',
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
 })); 
 
@@ -33,7 +33,7 @@ if (require.main === module) {
     const Server = async () => {
         try {
             await DbConnect(process.env.MONGO_URI!);
-            const port = process.env.PORT || 3000;
+            const port = process.env.PORT || 5000;
             app.listen(port, () => {
                 console.log(`Server connected on port ${port}`);
             });
