@@ -2,9 +2,11 @@
   "name": "server",
   "version": "1.0.0",
   "description": "Student List Coding Assignment",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "start": "npx nodemon",
+    "start": "npm run build && node dist/index.js",
+    "build": "tsc",
+    "dev": "npx nodemon src/index.ts", 
     "test": "jest"
   },
   "author": "Anu Ouseph",
