@@ -5,7 +5,7 @@ interface IStudentResponse {
   data: IStudent[];
 }
 
-axios.defaults.baseURL = 'http://localhost:5000';
+axios.defaults.baseURL = 'https://student-list-application-bhcu.onrender.com';
 
 export const getStudents = async (): Promise<IStudent[]> => {
   const response: AxiosResponse<IStudentResponse> = await axios.get('/');
