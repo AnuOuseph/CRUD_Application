@@ -9,11 +9,14 @@ import { IStudent } from "../modules/student/types/StudentTypes";
 const StudentPage: React.FC = () => {
   // State and function for handling student list
   const [students, setStudents] = useState<IStudent[]>([]);
+  const [loading, setLoading] = useState(false)
 
   const fetchStudents = async () => {
     try {
+      setLoading(true)
       const studentsData = await getStudents();
       setStudents(studentsData);
+      setLoading(false)
     } catch (error) {
       toast.error("Error fetching Students");
     }
@@ -44,7 +47,7 @@ const StudentPage: React.FC = () => {
         </div>
       </div>
       <div className="py-5">
-        <DataTable students={students} fetchStudents={fetchStudents}/>
+        <DataTable students={students} fetchStudents={fetchStudents} loading={loading}/>
       </div>
     </div>
   )

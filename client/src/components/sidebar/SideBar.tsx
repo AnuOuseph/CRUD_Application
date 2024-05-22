@@ -19,9 +19,9 @@ const SideBar: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen, o
       </div>
       {/* Sidebar for smaller devices */}
       {isOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 md:hidden" onClick={onClose} >
-          <div className="w-64 h-full" style={{ height: "100vh", background: 'linear-gradient(to right, #2040b0, #8834e4)' }} onClick={(e) => e.stopPropagation()}>
-            <div className="pt-2 px-4 relative h-full">
+        <div className="fixed h-screen inset-0 bg-black bg-opacity-50 z-50 md:hidden" onClick={onClose} >
+          <div className="w-64 h-screen" style={{ background: 'linear-gradient(to right, #2040b0, #8834e4)' }} onClick={(e) => e.stopPropagation()}>
+            <div className="pt-2 px-4 relative ">
               <div className='px-4 py-3 my-3 flex items-center'>
                 <div className="h-12 w-12 rounded-full flex items-center justify-center" style={{ backgroundColor: '#eefcf3' }}>
                   <p className="text-gray-300" style={{ fontSize: '10px' }}>100x100</p>

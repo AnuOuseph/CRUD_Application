@@ -21,11 +21,11 @@ const Layout: React.FC = () => {
         <div>
           <SideBar isOpen={isSidebarOpen} onClose={closeSidebar}/>
         </div>
-        <div style={{flex:10}}>
-          <div style={{height: '16px'}}>
+        <div style={{flex:10, height: '100vh'}}>
+          <div>
             <NavBar onMenuClick={toggleSidebar}/>
           </div>
-          <div className="flex-1 p-4">
+          <div>
             <Outlet />
           </div>
         </div>
