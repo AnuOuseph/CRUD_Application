@@ -21,7 +21,7 @@ const Layout: React.FC = () => {
         <div>
           <SideBar isOpen={isSidebarOpen} onClose={closeSidebar}/>
         </div>
-        <div style={{flex:10, height: '100vh'}}>
+        <div style={{flex:10}}>
           <div>
             <NavBar onMenuClick={toggleSidebar}/>
           </div>
